@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Khet.ai - AI-Powered Agricultural Platform{% endblock %}</title>
+    <meta name="description" content="{% block description %}AI-powered tools for disease detection, crop planning, and government support. Empowering Indian farmers with cutting-edge technology.{% endblock %}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+    
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-green-600">🌱Khet.ai</a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/" class="nav-link {% if request.endpoint == 'home' %}active{% endif %}">Home</a>
+                        <a href="/disease-detection" class="nav-link {% if request.endpoint == 'disease_detection' %}active{% endif %}">Disease Detection</a>
+                        <a href="/crop-recommendation" class="nav-link {% if request.endpoint == 'crop_recommendation' %}active{% endif %}">Crop Recommendation</a>
+                        <a href="/government-schemes" class="nav-link {% if request.endpoint == 'government_schemes' %}active{% endif %}">Schemes</a>
+                        <a href="/weather-insights" class="nav-link {% if request.endpoint == 'weather_insights' %}active{% endif %}">Weather</a>
+                        <a href="/about" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}">About</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-button">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="md:hidden mobile-menu hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
+                <a href="/" class="mobile-nav-link {% if request.endpoint == 'home' %}active{% endif %}">Home</a>
+                <a href="/disease-detection" class="mobile-nav-link {% if request.endpoint == 'disease_detection' %}active{% endif %}">Disease Detection</a>
+                <a href="/crop-recommendation" class="mobile-nav-link {% if request.endpoint == 'crop_recommendation' %}active{% endif %}">Crop Recommendation</a>
+                <a href="/government-schemes" class="mobile-nav-link {% if request.endpoint == 'government_schemes' %}active{% endif %}">Government Schemes</a>
+                <a href="/weather-insights" class="mobile-nav-link {% if request.endpoint == 'weather_insights' %}active{% endif %}">Weather Insights</a>
+                <a href="/about" class="mobile-nav-link {% if request.endpoint == 'about' %}active{% endif %}">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Chat Button -->
+    <button id="chat-button" class="chat-button">
+        <i data-lucide="message-circle"></i>
+    </button>
+
+    <!-- Chat Modal -->
+    <div id="chat-modal" class="chat-modal hidden">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3>AI Agricultural Assistant</h3>
+                <div class="chat-controls">
+                    <select id="language-select" class="language-select">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                    </select>
+                    <button id="close-chat" class="close-chat">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <div class="message ai-message">
+                    <div class="message-content">
+                        Hello! I'm your AI agricultural assistant. How can I help you with your farming needs today?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Ask about farming, crops, weather..." />
+                <button id="send-message" class="send-button">
+                    <i data-lucide="send"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "khet-ai",
+  "version": "1.0.0",
+  "description": "AI-Powered Agricultural Platform for Indian Farmers",
+  "main": "app.py",
+  "scripts": {
+    "dev": "python app.py",
+    "start": "python app.py",
+    "build": "echo 'Flask application - no build step required'"
+  },
+  "keywords": ["agriculture", "ai", "farmers", "flask", "python"],
+  "author": "Khet.ai",
+  "license": "MIT"
+}

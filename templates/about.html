@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}About - Khet.ai{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <div class="decorative-orb decorative-orb-1"></div>
+    <div class="decorative-orb decorative-orb-2"></div>
+    
+    <div class="page-content">
+        <div class="hero">
+            <h1>About Khet.ai</h1>
+            <p>Khet.ai is a passion project built to empower Indian farmers using AI — simplifying disease detection, crop planning, and decision-making through accessible technology.</p>
+        </div>
+
+        <!-- Mission -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">The Idea</h3>
+            </div>
+            <div class="card-content">
+                <p style="font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary);">
+                    Khet.ai was created with the vision of democratizing agri-tech. Farmers across India face challenges due to lack of timely information — be it diseases, climate impact, or crop choices. Khet.ai tries to bridge this gap using AI-driven tools that are simple, fast, and free.
+                </p>
+            </div>
+        </div>
+
+        <!-- Tech Section -->
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h3 class="card-title">Technology Behind It</h3>
+            </div>
+            <div class="card-content">
+                <ul style="line-height: 1.8; font-size: 1rem; color: var(--text-secondary);">
+                    <li>🧠 <strong>Plant Disease Detection</strong>: TensorFlow CNN trained on plant leaf datasets</li>
+                    <li>🌾 <strong>Crop Recommendation</strong>: Random Forest model based on NPK + weather</li>
+                    <li>💬 <strong>Gemini-powered Assistant</strong>: Natural language Q&A for agri queries</li>
+                    <li>☁️ <strong>Weather</strong>: Integrated with OpenWeatherMap for real-time climate data</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Developer Section -->
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h3 class="card-title">About the Developer</h3>
+            </div>
+            <div class="card-content">
+                <p style="line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+                    Hello! I’m Somya Vats — a developer who cares about making AI accessible and useful for real-world problems. This project blends machine learning, web dev, and domain-driven thinking to support a vital sector: agriculture.
+                </p>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="https://github.com/vatssomya" target="_blank" class="btn btn-outline btn-sm">
+                        <i data-lucide="github"></i>
+                        GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/somya-vats-472a4a289/" target="_blank" class="btn btn-outline btn-sm">
+                        <i data-lucide="linkedin"></i>
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="card" style="margin-top: 2rem; text-align: center; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+            <div class="card-content">
+                <h3 style="color: var(--primary-green); margin-bottom: 1rem;">Try the Tools</h3>
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+                    Explore disease detection or get crop recommendations tailored to your soil and climate.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                    <a href="/disease-detection" class="btn btn-primary">
+                        <i data-lucide="camera"></i>
+                        Disease Detection
+                    </a>
+                    <a href="/crop-recommendation" class="btn btn-secondary">
+                        <i data-lucide="sprout"></i>
+                        Crop Suggestion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

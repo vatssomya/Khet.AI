@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Khet.ai - AI-Powered Agricultural Platform{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <!-- Decorative Elements -->
+    <div class="decorative-orb decorative-orb-1"></div>
+    <div class="decorative-orb decorative-orb-2"></div>
+    
+    <div class="page-content">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>
+                🌱Khet.ai — Smarter Farming,<br>
+                <span class="text-green-600">One Click at a Time</span>
+            </h1>
+            <p>
+                AI-powered tools for disease detection, crop planning, and government support. 
+                Empowering Indian farmers with cutting-edge technology.
+            </p>
+            <div class="hero-buttons">
+                <a href="/disease-detection" class="btn btn-primary btn-lg">
+                    <i data-lucide="upload"></i>
+                    Detect Plant Disease
+                </a>
+                <a href="/crop-recommendation" class="btn btn-secondary btn-lg">
+                    <i data-lucide="cpu"></i>
+                    Get Crop Recommendations
+                </a>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-card-content">
+                    <div class="feature-icon green">
+                        <i data-lucide="upload"></i>
+                    </div>
+                    <div>
+                        <h3 class="feature-title">Plant Disease Detection</h3>
+                        <p class="feature-description">
+                            Upload plant images to detect diseases using our AI-powered CNN model
+                        </p>
+                        <a href="/disease-detection" class="btn btn-outline btn-sm">
+                            Explore →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-content">
+                    <div class="feature-icon orange">
+                        <i data-lucide="cpu"></i>
+                    </div>
+                    <div>
+                        <h3 class="feature-title">Crop Recommendation</h3>
+                        <p class="feature-description">
+                            Get personalized crop suggestions based on soil and weather conditions
+                        </p>
+                        <a href="/crop-recommendation" class="btn btn-outline btn-sm">
+                            Explore →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-content">
+                    <div class="feature-icon blue">
+                        <i data-lucide="building"></i>
+                    </div>
+                    <div>
+                        <h3 class="feature-title">Government Schemes</h3>
+                        <p class="feature-description">
+                            Explore agricultural schemes and financial support from the government
+                        </p>
+                        <a href="/government-schemes" class="btn btn-outline btn-sm">
+                            Explore →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-content">
+                    <div class="feature-icon blue">
+                        <i data-lucide="cloud"></i>
+                    </div>
+                    <div>
+                        <h3 class="feature-title">Weather Insights</h3>
+                        <p class="feature-description">
+                            Get real-time weather data and AI-powered agricultural insights
+                        </p>
+                        <a href="/weather-insights" class="btn btn-outline btn-sm">
+                            Explore →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-content">
+                    <div class="feature-icon purple">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <div>
+                        <h3 class="feature-title">About</h3>
+                        <p class="feature-description">
+                            Learn about the AI models and technology behind Khet.ai
+                        </p>
+                        <a href="/about" class="btn btn-outline btn-sm">
+                            Explore →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+<div class="footer">
+    <p>
+        Developed by Somya Vats — Open-source AI for Indian agriculture
+    </p>
+    <div class="footer-links">
+        <a href="https://github.com/vatssomya" class="footer-link" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/somya-vats-472a4a289/" class="footer-link" target="_blank">LinkedIn</a>
+    </div>
+</div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block title %}Weather Insights - Khet.ai{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <div class="decorative-orb decorative-orb-1"></div>
+    <div class="decorative-orb decorative-orb-2"></div>
+    
+    <div class="page-content">
+        <div class="hero">
+            <h1>Weather Insights for Agriculture</h1>
+            <p>Get real-time weather data and AI-powered insights to make informed farming decisions. Monitor conditions that affect crop health and plan your agricultural activities accordingly.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-content">
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                    <input type="text" id="city-input" class="form-input" placeholder="Enter city name..." value="Delhi" style="flex: 1;">
+                    <button id="get-weather-btn" class="btn btn-primary">
+                        <i data-lucide="search"></i>
+                        Get Weather
+                    </button>
+                </div>
+
+                <div id="weather-loading" class="hidden" style="text-align: center;">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        Fetching weather data...
+                    </div>
+                </div>
+
+                <div id="weather-card" class="weather-card hidden">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div>
+                            <h3 id="weather-city" style="margin: 0; font-size: 1.5rem;">Delhi, IN</h3>
+                            <p id="weather-description" style="margin: 0; opacity: 0.9;">Clear Sky</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div id="weather-temp" style="font-size: 2.5rem; font-weight: 700; margin: 0;">25°C</div>
+                            <i id="weather-icon" data-lucide="sun" style="width: 2rem; height: 2rem;"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="weather-info">
+                        <div class="weather-stat">
+                            <i data-lucide="droplets" style="margin-bottom: 0.5rem;"></i>
+                            <div>Humidity</div>
+                            <div id="weather-humidity" style="font-weight: 600;">65%</div>
+                        </div>
+                        <div class="weather-stat">
+                            <i data-lucide="wind" style="margin-bottom: 0.5rem;"></i>
+                            <div>Wind Speed</div>
+                            <div id="weather-wind" style="font-weight: 600;">12 km/h</div>
+                        </div>
+                        <div class="weather-stat">
+                            <i data-lucide="gauge" style="margin-bottom: 0.5rem;"></i>
+                            <div>Pressure</div>
+                            <div id="weather-pressure" style="font-weight: 600;">1013 hPa</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="agricultural-insights" class="card hidden" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i data-lucide="lightbulb" style="color: #f59e0b; margin-right: 0.5rem;"></i>
+                    Agricultural Insights
+                </h3>
+            </div>
+            <div class="card-content">
+                <div id="insights-content">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <div id="crop-recommendations" class="card hidden" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i data-lucide="sprout" style="color: var(--primary-green); margin-right: 0.5rem;"></i>
+                    Weather-Based Crop Recommendations
+                </h3>
+            </div>
+            <div class="card-content">
+                <div id="crop-recommendations-content">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h3 class="card-title">Weather Parameters for Farming</h3>
+            </div>
+            <div class="card-content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4><i data-lucide="thermometer" style="color: #f59e0b; margin-right: 0.5rem;"></i>Temperature</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+                            Optimal range varies by crop. Rice: 20-30°C, Wheat: 15-25°C, Cotton: 25-35°C. Monitor for heat stress above 35°C.
+                        </p>
+                    </div>
+                    <div>
+                        <h4><i data-lucide="droplets" style="color: #2563eb; margin-right: 0.5rem;"></i>Humidity</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+                            Affects disease development. High humidity (>80%) increases fungal diseases. Low humidity (<40%) can stress plants.
+                        </p>
+                    </div>
+                    <div>
+                        <h4><i data-lucide="wind" style="color: #059669; margin-right: 0.5rem;"></i>Wind Speed</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+                            Moderate winds (5-15 km/h) help pollination and reduce humidity. Strong winds (>25 km/h) can damage crops.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cityInput = document.getElementById('city-input');
+    const getWeatherBtn = document.getElementById('get-weather-btn');
+    const weatherLoading = document.getElementById('weather-loading');
+    const weatherCard = document.getElementById('weather-card');
+    const agriculturalInsights = document.getElementById('agricultural-insights');
+    const cropRecommendations = document.getElementById('crop-recommendations');
+
+    // Load weather for default city
+    getWeather('Delhi');
+
+    getWeatherBtn.addEventListener('click', function() {
+        const city = cityInput.value.trim();
+        if (city) {
+            getWeather(city);
+        }
+    });
+
+    cityInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const city = cityInput.value.trim();
+            if (city) {
+                getWeather(city);
+            }
+        }
+    });
+
+    async function getWeather(city) {
+        weatherLoading.classList.remove('hidden');
+        weatherCard.classList.add('hidden');
+        agriculturalInsights.classList.add('hidden');
+        cropRecommendations.classList.add('hidden');
+
+        try {
+            const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
+            const data = await response.json();
+
+            if (response.ok) {
+                updateWeatherDisplay(data);
+                generateInsights(data);
+                generateCropRecommendations(data);
+            } else {
+                alert('Weather data not found for this city. Please try another city.');
+            }
+        } catch (error) {
+            alert('Error fetching weather data. Please try again.');
+        } finally {
+            weatherLoading.classList.add('hidden');
+        }
+    }
+
+    function updateWeatherDisplay(data) {
+        document.getElementById('weather-city').textContent = `${data.city}, ${data.country}`;
+        document.getElementById('weather-description').textContent = data.description;
+        document.getElementById('weather-temp').textContent = `${data.temperature}°C`;
+        document.getElementById('weather-humidity').textContent = `${data.humidity}%`;
+        document.getElementById('weather-wind').textContent = `${data.windSpeed} km/h`;
+        document.getElementById('weather-pressure').textContent = `${data.pressure} hPa`;
+
+        // Update weather icon
+        const iconElement = document.getElementById('weather-icon');
+        const iconName = getWeatherIconName(data.icon);
+        iconElement.setAttribute('data-lucide', iconName);
+        
+        // Re-initialize icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        weatherCard.classList.remove('hidden');
+    }
+
+    function getWeatherIconName(iconCode) {
+        const iconMap = {
+            '01d': 'sun', '01n': 'moon', '02d': 'cloud-sun', '02n': 'cloud-moon',
+            '03d': 'cloud', '03n': 'cloud', '04d': 'cloud', '04n': 'cloud',
+            '09d': 'cloud-rain', '09n': 'cloud-rain', '10d': 'cloud-sun-rain', '10n': 'cloud-moon-rain',
+            '11d': 'cloud-lightning', '11n': 'cloud-lightning', '13d': 'cloud-snow', '13n': 'cloud-snow',
+            '50d': 'cloud-fog', '50n': 'cloud-fog'
+        };
+        return iconMap[iconCode] || 'cloud';
+    }
+
+    function generateInsights(data) {
+        const insights = [];
+
+        if (data.temperature > 35) {
+            insights.push({
+                type: 'warning',
+                text: 'High temperature alert! Consider providing shade for sensitive crops and increase irrigation frequency.'
+            });
+        } else if (data.temperature < 15) {
+            insights.push({
+                type: 'info',
+                text: 'Cool weather conditions. Good for cool-season crops like wheat, peas, and leafy vegetables.'
+            });
+        } else {
+            insights.push({
+                type: 'success',
+                text: 'Optimal temperature range for most crops. Good conditions for general farming activities.'
+            });
+        }
+
+        if (data.humidity > 80) {
+            insights.push({
+                type: 'warning',
+                text: 'High humidity levels increase risk of fungal diseases. Ensure good air circulation and consider preventive fungicide application.'
+            });
+        } else if (data.humidity < 40) {
+            insights.push({
+                type: 'info',
+                text: 'Low humidity conditions. Monitor crops for water stress and consider increasing irrigation frequency.'
+            });
+        }
+
+        if (data.windSpeed > 25) {
+            insights.push({
+                type: 'warning',
+                text: 'Strong winds detected. Secure tall crops and protect young seedlings from wind damage.'
+            });
+        }
+
+        const insightsHtml = insights.map(insight => `
+            <div class="alert alert-${insight.type}">
+                <i data-lucide="${getAlertIcon(insight.type)}" style="margin-right: 0.5rem;"></i>
+                ${insight.text}
+            </div>
+        `).join('');
+
+        document.getElementById('insights-content').innerHTML = insightsHtml;
+        agriculturalInsights.classList.remove('hidden');
+
+        // Re-initialize icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    function generateCropRecommendations(data) {
+        const recommendations = [];
+
+        if (data.temperature >= 25 && data.temperature <= 35 && data.humidity >= 60) {
+            recommendations.push('Rice - Ideal conditions for paddy cultivation');
+            recommendations.push('Sugarcane - Excellent weather for growth phase');
+        }
+
+        if (data.temperature >= 15 && data.temperature <= 25) {
+            recommendations.push('Wheat - Perfect temperature for winter crop');
+            recommendations.push('Barley - Good conditions for cereal production');
+        }
+
+        if (data.temperature >= 20 && data.temperature <= 30) {
+            recommendations.push('Cotton - Suitable for cotton cultivation');
+            recommendations.push('Maize - Good conditions for corn growth');
+        }
+
+        if (data.temperature <= 20) {
+            recommendations.push('Peas - Cool weather crop, ideal conditions');
+            recommendations.push('Spinach - Excellent for leafy green cultivation');
+        }
+
+        const recommendationsHtml = recommendations.length > 0 
+            ? recommendations.map(rec => `<li style="margin-bottom: 0.5rem;">${rec}</li>`).join('')
+            : '<li>Consult local agricultural experts for crop selection based on current conditions.</li>';
+
+        document.getElementById('crop-recommendations-content').innerHTML = `<ul style="padding-left: 1.5rem;">${recommendationsHtml}</ul>`;
+        cropRecommendations.classList.remove('hidden');
+    }
+
+    function getAlertIcon(type) {
+        switch (type) {
+            case 'success': return 'check-circle';
+            case 'warning': return 'alert-triangle';
+            case 'error': return 'x-circle';
+            default: return 'info';
+        }
+    }
+});
+</script>
+{% endblock %}

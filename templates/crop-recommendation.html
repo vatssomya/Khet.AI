@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Crop Recommendation - Khet.ai{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <div class="decorative-orb decorative-orb-1"></div>
+    <div class="decorative-orb decorative-orb-2"></div>
+    
+    <div class="page-content">
+        <div class="hero">
+            <h1>Crop Recommendation System</h1>
+            <p>Get personalized crop suggestions based on your soil conditions and climate data. Our ML model analyzes multiple factors to recommend the best crops for your farm.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Soil & Environmental Data</h3>
+            </div>
+            <div class="card-content">
+                <form id="crop-form">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div class="form-group">
+                            <label class="form-label">Nitrogen (N) - kg/ha</label>
+                            <input type="number" id="nitrogen" class="form-input" placeholder="40" min="0" max="200" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Phosphorus (P) - kg/ha</label>
+                            <input type="number" id="phosphorus" class="form-input" placeholder="60" min="0" max="150" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Potassium (K) - kg/ha</label>
+                            <input type="number" id="potassium" class="form-input" placeholder="20" min="0" max="200" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Temperature - °C</label>
+                            <input type="number" id="temperature" class="form-input" placeholder="25" min="0" max="50" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Humidity - %</label>
+                            <input type="number" id="humidity" class="form-input" placeholder="65" min="0" max="100" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">pH Level</label>
+                            <input type="number" id="ph" class="form-input" placeholder="6.5" min="0" max="14" step="0.1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Rainfall - mm</label>
+                            <input type="number" id="rainfall" class="form-input" placeholder="150" min="0" max="3000" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Location</label>
+                            <select id="location" class="form-select" required>
+                                <option value="">Select your region</option>
+                                <option value="north">Northern India</option>
+                                <option value="south">Southern India</option>
+                                <option value="east">Eastern India</option>
+                                <option value="west">Western India</option>
+                                <option value="central">Central India</option>
+                                <option value="northeast">Northeast India</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">
+                        <i data-lucide="cpu"></i>
+                        Get Crop Recommendations
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="recommendation-loading" class="hidden" style="text-align: center; margin-top: 2rem;">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                Analyzing soil conditions and generating recommendations...
+            </div>
+        </div>
+
+        <div id="recommendation-result" class="card hidden" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i data-lucide="check-circle" style="color: #10b981; margin-right: 0.5rem;"></i>
+                    Recommended Crop
+                </h3>
+            </div>
+            <div class="card-content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                    <div class="scheme-detail">
+                        <div class="scheme-detail-label">Crop Name</div>
+                        <div id="crop-name" class="scheme-detail-value"></div>
+                    </div>
+                    <div class="scheme-detail">
+                        <div class="scheme-detail-label">Growing Season</div>
+                        <div id="crop-season" class="scheme-detail-value"></div>
+                    </div>
+                    <div class="scheme-detail">
+                        <div class="scheme-detail-label">Expected Yield</div>
+                        <div id="crop-yield" class="scheme-detail-value"></div>
+                    </div>
+                    <div class="scheme-detail">
+                        <div class="scheme-detail-label">Profitability</div>
+                        <div id="crop-profit" class="scheme-detail-value"></div>
+                    </div>
+                    <div class="scheme-detail">
+                        <div class="scheme-detail-label">Market Demand</div>
+                        <div id="crop-demand" class="scheme-detail-value"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header">
+                <h3 class="card-title">Understanding Soil Parameters</h3>
+            </div>
+            <div class="card-content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4><i data-lucide="droplets" style="color: #2563eb; margin-right: 0.5rem;"></i>NPK Values</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+                            Nitrogen (N), Phosphorus (P), and Potassium (K) are essential nutrients. Typical ranges: N: 40-120 kg/ha, P: 20-80 kg/ha, K: 20-100 kg/ha.
+                        </p>
+                    </div>
+                    <div>
+                        <h4><i data-lucide="thermometer" style="color: #f59e0b; margin-right: 0.5rem;"></i>Climate Factors</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+                            Temperature and humidity affect crop growth. Most crops thrive in 20-30°C with 50-70% humidity.
+                        </p>
+                    </div>
+                    <div>
+                        <h4><i data-lucide="activity" style="color: #10b981; margin-right: 0.5rem;"></i>pH & Rainfall</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+                            Soil pH affects nutrient availability (6.0-7.5 ideal). Rainfall requirements vary: Rice needs 1000-2000mm, Wheat needs 300-700mm.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('crop-form');
+    const loading = document.getElementById('recommendation-loading');
+    const result = document.getElementById('recommendation-result');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            nitrogen: document.getElementById('nitrogen').value,
+            phosphorus: document.getElementById('phosphorus').value,
+            potassium: document.getElementById('potassium').value,
+            temperature: document.getElementById('temperature').value,
+            humidity: document.getElementById('humidity').value,
+            ph: document.getElementById('ph').value,
+            rainfall: document.getElementById('rainfall').value,
+            location: document.getElementById('location').value
+        };
+
+        loading.classList.remove('hidden');
+        result.classList.add('hidden');
+
+        try {
+            const response = await fetch('/api/crop-recommend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const recommendation = await response.json();
+
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                
+                document.getElementById('crop-name').textContent = recommendation.crop;
+                document.getElementById('crop-season').textContent = recommendation.season;
+                document.getElementById('crop-yield').textContent = recommendation.expectedYield;
+                document.getElementById('crop-profit').textContent = recommendation.profitability;
+                document.getElementById('crop-demand').textContent = recommendation.marketDemand;
+                
+                result.classList.remove('hidden');
+            }, 2000);
+
+        } catch (error) {
+            loading.classList.add('hidden');
+            alert('Error getting recommendations. Please try again.');
+        }
+    });
+});
+</script>
+{% endblock %}
