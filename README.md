@@ -4,6 +4,8 @@
 
 Khet.ai is a Flask-based agricultural platform designed specifically for Indian farmers. The application provides AI-powered tools for disease detection, crop recommendations, weather insights, and government schemes information.
 
+![Home Page Screenshot](demoimages/5582c8dc028d4f47885e8351e510102c.jpg)
+
 ## Features
 
 - **Plant Disease Detection**: AI-powered image analysis for crop disease identification
@@ -36,6 +38,9 @@ Khet.ai is a Flask-based agricultural platform designed specifically for Indian 
 │   ├── css/            # Stylesheets
 │   └── js/             # JavaScript files
 ```
+![Plant disease Screenshot](demoimages/6375b3ad0e9243169a862b9585899f71.jpg)
+![Crop Recommendation Screenshot](demoimages/6375b3ad0e9243169a862b9585899f71.jpg)
+
 
 ## API Endpoints
 
@@ -53,7 +58,7 @@ Khet.ai is a Flask-based agricultural platform designed specifically for Indian 
 ## Running the Application
 
 ```bash
-python app.py
+python run.py
 ```
 
 The application will be available at `http://localhost:5000`
